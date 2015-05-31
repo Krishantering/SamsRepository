@@ -28,7 +28,7 @@ public class StaticBlock extends Gameobject {
 	}
 	
 	@Override
-	public void tick(){
+	public void tick(int slowdown){
 		
 	}
 

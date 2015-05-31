@@ -38,7 +38,7 @@ public class EvilWizard extends Gameobject implements Mob {
 	}
 	
 	@Override
-	public void tick(){
+	public void tick(int slowdown){
 		if(x>p.x){
 			direction=-1;
 			while(velx>-7)
@@ -89,8 +89,8 @@ public class EvilWizard extends Gameobject implements Mob {
 		}
 		
 		
-	y+=(vely/MageQuest.slowdown);
-	x+=(velx/MageQuest.slowdown);
+	y+=(vely/slowdown);
+	x+=(velx/slowdown);
 	
 	
 	}

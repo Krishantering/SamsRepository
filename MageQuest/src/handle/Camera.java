@@ -4,18 +4,19 @@ import object.Gameobject;
 import object.Player;
 
 public class Camera {  
-	//This is the camera data
-	int x,y;  
+	private int x,y;  
 
 	public Camera(int x,int y){
 		
 		this.x=x;
 		this.y=y;
 		
-	}public void tick(int x,int y) {
+	}
+	
+	public void tick(int x,int y) {
 		
-		this.x=-x + 1200/2;
-		this.y=-y + 800/2;
+		this.x=-x + MageQuest.WIDTH/2;
+		this.y=-y + MageQuest.HEIGHT/2;
 		
 	}
 

@@ -34,10 +34,10 @@ public abstract class Gameobject implements Serializable {
 		
 	}
 	
-	public void tick(){
+	public void tick(int slowdown){
 		
 		slowTimer++;
-		if(slowTimer>MageQuest.slowdown){
+		if(slowTimer>slowdown){
 			slowTimer=1;
 			
 			if(!AeroDyn){
@@ -56,8 +56,8 @@ public abstract class Gameobject implements Serializable {
 			
 			
 		
-		y+=(vely/MageQuest.slowdown);
-		x+=(velx/MageQuest.slowdown);
+		y+=(vely/slowdown);
+		x+=(velx/slowdown);
 	}
 	
 	public abstract void render(Graphics g);
