@@ -4,7 +4,7 @@ import object.Gameobject;
 import object.Player;
 
 public class Camera {  
-	//u
+	//This is the camera data
 	int x,y;  
 
 	public Camera(int x,int y){
