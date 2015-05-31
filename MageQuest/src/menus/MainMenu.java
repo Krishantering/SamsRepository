@@ -19,7 +19,7 @@ public class MainMenu extends JPanel implements ActionListener {
 	public MageQuest mq;
 	
 	/**
-	 * This is the main menu of the game thingy magiggy
+	 * This is the main menu of the game
 	 */
 	private static final long serialVersionUID = 1L;
 
