@@ -6,7 +6,7 @@ import object.Player;
 public class Camera {
 	
 	int x,y;  
-	
+
 	public Camera(int x,int y){
 		
 		this.x=x;
