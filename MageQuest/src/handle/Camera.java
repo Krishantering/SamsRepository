@@ -3,8 +3,8 @@ package handle;
 import object.Gameobject;
 import object.Player;
 
-public class Camera {
-	
+public class Camera {  
+	//u
 	int x,y;  
 
 	public Camera(int x,int y){
