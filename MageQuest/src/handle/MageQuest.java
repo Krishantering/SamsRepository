@@ -72,7 +72,6 @@ public class MageQuest extends JPanel implements Runnable ,KeyListener, ActionLi
 	public static int HEALTH=0;
 	public static int WIDTH=(int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public static int HEIGHT=(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	public static int slowdown=1;
 	public static int animation=1;
 	Camera Cam;
 	Client c;
@@ -204,6 +203,52 @@ public class MageQuest extends JPanel implements Runnable ,KeyListener, ActionLi
 			
 		}
 		
+		public void paintComponent(Graphics g){
+			
+			Graphics2D g2d= (Graphics2D) g;
+			
+			
+				
+			g.setColor(Color.DARK_GRAY);
+			g.fillRect(0, 0, getWidth(), getHeight());
+			
+			
+			g2d.translate(Cam.getX(), Cam.getY());
+			hand.render(g);
+			g2d.translate(-Cam.getX(), -Cam.getY());
+			
+			g2d.setComposite(AlphaComposite.getInstance(
+		            AlphaComposite.SRC_OVER, 0.5f));
+			
+			g.setColor(Color.BLACK);
+			g.fillRect(0, 0, getWidth(), getHeight());
+			
+				if(blind>0){
+					blind--;
+				g2d.setComposite(AlphaComposite.getInstance(
+			            AlphaComposite.SRC_OVER, 1f*blind/(60*5)));
+				g.setColor(Color.WHITE);
+				g.fillRect(0, 0, WIDTH, HEIGHT);
+			}
+				
+			g.setColor(Color.GREEN);
+			g.fillRect(10, 10, WIDTH/50*HEALTH, 20);
+			
+			if(Dead){
+				
+				g2d.setComposite(AlphaComposite.getInstance(
+				            AlphaComposite.SRC_OVER, 0.7f));
+				g.setColor(Color.BLACK);
+				g.fillRect(0, 0, WIDTH, HEIGHT);
+				g.setColor(Color.red);
+				g.drawString("YOU DIED", WIDTH/2, HEIGHT/2);
+				
+				pause=true;
+				
+			}
+			
+		}
+		
 		
 	public void run() {
 		
@@ -255,9 +300,7 @@ public class MageQuest extends JPanel implements Runnable ,KeyListener, ActionLi
 	}
 
 	public void Tick(){
-		
-		if(slowdown>1)
-		slowdown--;
+
 		
 		animation++;
 		
@@ -268,51 +311,7 @@ public class MageQuest extends JPanel implements Runnable ,KeyListener, ActionLi
 		hand.tick();
 	}
 
-	public void paintComponent(Graphics g){
-		
-		Graphics2D g2d= (Graphics2D) g;
-		
-		
-			
-		g.setColor(Color.DARK_GRAY);
-		g.fillRect(0, 0, getWidth(), getHeight());
-		
-		
-		g2d.translate(Cam.getX(), Cam.getY());
-		hand.render(g);
-		g2d.translate(-Cam.getX(), -Cam.getY());
-		
-		g2d.setComposite(AlphaComposite.getInstance(
-	            AlphaComposite.SRC_OVER, 0.5f));
-		
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, getWidth(), getHeight());
-		
-			if(blind>0){
-				blind--;
-			g2d.setComposite(AlphaComposite.getInstance(
-		            AlphaComposite.SRC_OVER, 1f*blind/(60*5)));
-			g.setColor(Color.WHITE);
-			g.fillRect(0, 0, WIDTH, HEIGHT);
-		}
-			
-		g.setColor(Color.GREEN);
-		g.fillRect(10, 10, WIDTH/50*HEALTH, 20);
-		
-		if(Dead){
-			
-			g2d.setComposite(AlphaComposite.getInstance(
-			            AlphaComposite.SRC_OVER, 0.7f));
-			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, WIDTH, HEIGHT);
-			g.setColor(Color.red);
-			g.drawString("YOU DIED", WIDTH/2, HEIGHT/2);
-			
-			pause=true;
-			
-		}
-		
-	}
+
 
 	public boolean CreateW(){
 		WP=new JPanel();
@@ -469,7 +468,7 @@ public class MageQuest extends JPanel implements Runnable ,KeyListener, ActionLi
 		options[2]=o2;
 		
 		this.add(o1);
-		thiws.add(o2);
+		this.add(o2);
 		this.add(b);
 		
 		

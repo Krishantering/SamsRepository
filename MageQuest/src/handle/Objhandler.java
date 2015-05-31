@@ -22,12 +22,14 @@ public class Objhandler implements ActionListener {
 	MageQuest mq;
 	Player p;
 	Camera Cam;
+	public int slowdown=1;
+
 	
 	public Objhandler(MageQuest mq,Camera Cam){
 		
 		this.mq=mq;
 		this.Cam=Cam;
-		
+		slowdown = 1;
 		for(int i=0;i<9;i++)
 		mq.ibutt[i].addActionListener(this);
 		
@@ -51,8 +53,12 @@ public class Objhandler implements ActionListener {
 	
 	public void tick(){
 		
+		
+		if(slowdown>1)
+		slowdown--;
+		
 		for(int i=0;i<Objects.size();i++){
-			 Objects.get(i).tick();
+			 Objects.get(i).tick(slowdown);
 			 
 			 for(int x=0;x<Objects.size();x++){
 				 
@@ -63,7 +69,7 @@ public class Objhandler implements ActionListener {
 					 if(Objects.get(i)instanceof Player){
 							 if(Objects.get(x)instanceof FireBall || Objects.get(x)instanceof ElStrike|| Objects.get(x)instanceof EvilWizard){
 							 if(((Player) Objects.get(i)).getClose().intersects(Objects.get(x).getBounds())){
-								 MageQuest.slowdown=10;
+								 slowdown=10;
 							 }
 							 }
 						 }

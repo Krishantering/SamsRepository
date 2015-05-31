@@ -39,10 +39,10 @@ public class Player extends Gameobject implements Mob{
 		
 	}
 	
-	public void tick() {
+	public void tick(int slowdown) {
 
 		slowTimer++;
-		if (slowTimer > MageQuest.slowdown) {
+		if (slowTimer > slowdown) {
 			slowTimer = 1;
 
 			running = false;
@@ -129,8 +129,8 @@ public class Player extends Gameobject implements Mob{
 
 		}
 
-		y += vely / MageQuest.slowdown;
-		x += velx / MageQuest.slowdown;
+		y += vely / slowdown;
+		x += velx / slowdown;
 
 		MageQuest.HEALTH = this.health;
 	}
