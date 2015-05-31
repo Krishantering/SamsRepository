@@ -72,7 +72,6 @@ public class MageQuest extends JPanel implements Runnable ,KeyListener, ActionLi
 	public static int HEALTH=0;
 	public static int WIDTH=(int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public static int HEIGHT=(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	public static int slowdown=1;
 	public static int animation=1;
 	Camera Cam;
 	Client c;
@@ -93,6 +92,7 @@ public class MageQuest extends JPanel implements Runnable ,KeyListener, ActionLi
 		}
 		
 		LoadSound();
+		
 		LoadTextures();
 		
 		ibutt = new JButton[9];
@@ -119,6 +119,8 @@ public class MageQuest extends JPanel implements Runnable ,KeyListener, ActionLi
 		name=JOptionPane.showInputDialog(null, "At least 2 letters", "What is Your Name", JOptionPane.PLAIN_MESSAGE);
 		
 		Music_1.loop();
+		frame.revalidate();
+		System.out.println("Got here");
 	}
 	
 	public boolean SaveGame() {
@@ -201,6 +203,52 @@ public class MageQuest extends JPanel implements Runnable ,KeyListener, ActionLi
 			
 		}
 		
+		public void paintComponent(Graphics g){
+			
+			Graphics2D g2d= (Graphics2D) g;
+			
+			
+				
+			g.setColor(Color.DARK_GRAY);
+			g.fillRect(0, 0, getWidth(), getHeight());
+			
+			
+			g2d.translate(Cam.getX(), Cam.getY());
+			hand.render(g);
+			g2d.translate(-Cam.getX(), -Cam.getY());
+			
+			g2d.setComposite(AlphaComposite.getInstance(
+		            AlphaComposite.SRC_OVER, 0.5f));
+			
+			g.setColor(Color.BLACK);
+			g.fillRect(0, 0, getWidth(), getHeight());
+			
+				if(blind>0){
+					blind--;
+				g2d.setComposite(AlphaComposite.getInstance(
+			            AlphaComposite.SRC_OVER, 1f*blind/(60*5)));
+				g.setColor(Color.WHITE);
+				g.fillRect(0, 0, WIDTH, HEIGHT);
+			}
+				
+			g.setColor(Color.GREEN);
+			g.fillRect(10, 10, WIDTH/50*HEALTH, 20);
+			
+			if(Dead){
+				
+				g2d.setComposite(AlphaComposite.getInstance(
+				            AlphaComposite.SRC_OVER, 0.7f));
+				g.setColor(Color.BLACK);
+				g.fillRect(0, 0, WIDTH, HEIGHT);
+				g.setColor(Color.red);
+				g.drawString("YOU DIED", WIDTH/2, HEIGHT/2);
+				
+				pause=true;
+				
+			}
+			
+		}
+		
 		
 	public void run() {
 		
@@ -231,7 +279,7 @@ public class MageQuest extends JPanel implements Runnable ,KeyListener, ActionLi
 			
 			if(shouldRender){
 				fps++;
-				p1.repaint();
+				repaint();
 			}
 			
 			
@@ -252,64 +300,18 @@ public class MageQuest extends JPanel implements Runnable ,KeyListener, ActionLi
 	}
 
 	public void Tick(){
-		
-		if(slowdown>1)
-		slowdown--;
+
 		
 		animation++;
 		
 		if(animation>=60)
 			animation=0;
 		
-		p1.grabFocus();
+		grabFocus();
 		hand.tick();
 	}
 
-	public void paintComponent(Graphics g){
-		
-		Graphics2D g2d= (Graphics2D) g;
-		
-		
-			
-		g.setColor(Color.DARK_GRAY);
-		g.fillRect(0, 0, p1.getWidth(), p1.getHeight());
-		
-		
-		g2d.translate(Cam.getX(), Cam.getY());
-		hand.render(g);
-		g2d.translate(-Cam.getX(), -Cam.getY());
-		
-		g2d.setComposite(AlphaComposite.getInstance(
-	            AlphaComposite.SRC_OVER, 0.5f));
-		
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, p1.getWidth(), p1.getHeight());
-		
-			if(blind>0){
-				blind--;
-			g2d.setComposite(AlphaComposite.getInstance(
-		            AlphaComposite.SRC_OVER, 1f*blind/(60*5)));
-			g.setColor(Color.WHITE);
-			g.fillRect(0, 0, WIDTH, HEIGHT);
-		}
-			
-		g.setColor(Color.GREEN);
-		g.fillRect(10, 10, WIDTH/50*HEALTH, 20);
-		
-		if(Dead){
-			
-			g2d.setComposite(AlphaComposite.getInstance(
-			            AlphaComposite.SRC_OVER, 0.7f));
-			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, WIDTH, HEIGHT);
-			g.setColor(Color.red);
-			g.drawString("YOU DIED", WIDTH/2, HEIGHT/2);
-			
-			pause=true;
-			
-		}
-		
-	}
+
 
 	public boolean CreateW(){
 		WP=new JPanel();
@@ -330,7 +332,7 @@ public class MageQuest extends JPanel implements Runnable ,KeyListener, ActionLi
 		
 		WP.setLayout(new BorderLayout());
 		
-		p1.setLayout(new GridLayout(3,1));
+		this.setLayout(new GridLayout(3,1));
 		
 		p2=new JPanel();
 		
@@ -341,15 +343,15 @@ public class MageQuest extends JPanel implements Runnable ,KeyListener, ActionLi
 			p2.add(ibutt[i]);
 		}
 		
-		WP.add(p1,BorderLayout.CENTER);
+		WP.add(this,BorderLayout.CENTER);
 		WP.add(p2,BorderLayout.SOUTH);
 		
-		p1.setVisible(false);
+		setVisible(false);
 		p2.setVisible(false);
 		
-		p1.addKeyListener(this);
+		addKeyListener(this);
 		
-		p1.grabFocus();
+		grabFocus();
 		
 		return true;
 	}
@@ -442,7 +444,7 @@ public class MageQuest extends JPanel implements Runnable ,KeyListener, ActionLi
 		}catch(NullPointerException e){
 			System.out.println("No server to write to");
 		}
-		p1.setVisible(true);
+		setVisible(true);
 		p2.setVisible(true);
 		running=true;
 		thread.start();
@@ -465,9 +467,9 @@ public class MageQuest extends JPanel implements Runnable ,KeyListener, ActionLi
 		Option o2=new Option("Fullscreen", FULLSCREEN);
 		options[2]=o2;
 		
-		p1.add(o1);
-		p1.add(o2);
-		p1.add(b);
+		this.add(o1);
+		this.add(o2);
+		this.add(b);
 		
 		
 	}
@@ -483,8 +485,8 @@ public class MageQuest extends JPanel implements Runnable ,KeyListener, ActionLi
 		}
 		windowdecorated();
 		
-		p1.removeAll();
-		p1.revalidate();
+		this.removeAll();
+		this.revalidate();
 		p2.setVisible(true);
 		pause=false;
 	}
